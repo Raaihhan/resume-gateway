@@ -1,0 +1,22 @@
+env: dev
+server:
+  http_addr: ":8080"
+  grpc_addr: ":9090"
+  api_key: ""
+cors:
+  allowed_origins: ["*"]
+  allowed_methods: ["GET","POST","PUT","PATCH","DELETE","OPTIONS"]
+  allowed_headers: ["Content-Type","Authorization","X-Request-Id"]
+database:
+  driver: "mysql"
+  host: "127.0.0.1"
+  port: 3306
+  user: "resume_app"
+  password: "supersecret"
+  name: "resume"
+  params:
+    parseTime: "true"
+    charset: "utf8mb4"
+    loc: "Asia/Jakarta"
+log:
+  level: "info"

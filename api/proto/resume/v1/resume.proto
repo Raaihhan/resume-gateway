@@ -1,57 +1,56 @@
 syntax = "proto3";
 package resume.v1;
 
-
-option go_package = "github.com/Raaihhan/resume-gateway/api/gen/go/resume/v1;resumev1";
-
-
-import "google/api/annotations.proto";
-import "protoc-gen-openapiv2/options/annotations.proto";
+option go_package = "github.com/Raaihhan/resume-gateway/gen/go/proto/resume/v1;resumev1";
 
 
-message Empty {}
+// ==== Requests & Responses ====
 
+message GetProfileRequest {}
 
 message Profile {
-  string full_name = 1;
-  string headline = 2; // ex: Backend Engineer | Go | gRPC
-  string summary = 3;
-  string location = 4;
-  repeated string skills = 5; // ["Go", "Vue", "Postgres"]
-  string avatar_url = 6;
+  string full_name   = 1;
+  string headline    = 2;
+  string summary     = 3;
+  string location    = 4;
+  repeated string skills = 5;
+  string avatar_url  = 6;
 }
-
 
 message Project {
-  string id = 1;
-  string name = 2;
-  string description = 3;
-  string repo_url = 4;
-  string demo_url = 5;
-  repeated string tags = 6; // ["golang","grpc","vue"]
+  string id           = 1;
+  string name         = 2;
+  string description  = 3;
+  string repo_url     = 4;
+  string demo_url     = 5;
+  repeated string tags = 6;
 }
 
+message ListProjectsRequest {
+  string page_number  = 1;  // 1-based, tetap string
+  string page_size    = 2;  // max 100, tetap string
+  string search_query = 3;  // kata kunci
+}
 
-message ListProjectsRequest { int32 page = 1; int32 page_size = 2; string q = 3; }
-message ListProjectsResponse { repeated Project items = 1; int32 total = 2; }
+message ListProjectsResponse {
+  repeated Project items = 1;
+  string total = 2;         // total items, tetap string
+}
 
-
-message SendMessageRequest {
-  string name = 1;
-  string email = 2;
+message CreateContactMessageRequest {
+  string name    = 1;
+  string email   = 2;
   string message = 3;
 }
-message SendMessageResponse { string status = 1; }
+
+message CreateContactMessageResponse {
+  string status = 1; // "ok"
+}
 
 
-service ResumeService {
-  rpc GetProfile(Empty) returns (Profile) {
-    option (google.api.http) = { get: "/v1/profile" };
-  }
-  rpc ListProjects(ListProjectsRequest) returns (ListProjectsResponse) {
-    option (google.api.http) = { get: "/v1/projects" };
-  }
-  rpc SendMessage(SendMessageRequest) returns (SendMessageResponse) {
-    option (google.api.http) = { post: "/v1/contact", body: "*" };
-  }
+
+service ResumeGatewayService {
+  rpc GetProfile(GetProfileRequest) returns (Profile);
+  rpc ListProjects(ListProjectsRequest) returns (ListProjectsResponse);
+  rpc CreateContactMessage(CreateContactMessageRequest) returns (CreateContactMessageResponse);
 }
