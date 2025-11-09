@@ -4,7 +4,7 @@ package resume.v1;
 option go_package = "github.com/Raaihhan/resume-gateway/gen/go/proto/resume/v1;resumev1";
 
 
-// ==== Requests & Responses ====
+import "google/protobuf/empty.proto";
 
 message GetProfileRequest {}
 
@@ -47,10 +47,23 @@ message CreateContactMessageResponse {
   string status = 1; // "ok"
 }
 
+message LoadHobbyResponse {
+  string Tags = 1;
+  string Remaks = 2;
+  string Description = 3;
+}
+
+message ListSkillsResponse {
+  string Skills = 1;
+  string Description = 2;
+  string Years = 3;
+}
 
 
 service ResumeGatewayService {
   rpc GetProfile(GetProfileRequest) returns (Profile);
   rpc ListProjects(ListProjectsRequest) returns (ListProjectsResponse);
   rpc CreateContactMessage(CreateContactMessageRequest) returns (CreateContactMessageResponse);
+  rpc ListHobbies(google.protobuf.Empty) returns (LoadHobbyResponse);
+  rpc ListSkills(google.protobuf.Empty) returns (ListSkillsResponse);
 }

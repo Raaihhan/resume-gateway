@@ -9,21 +9,20 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
-	_ "strconv"
 	"syscall"
 	"time"
 
 	"google.golang.org/grpc"
-	_ "google.golang.org/grpc/codes"
 	"google.golang.org/grpc/reflection"
-	_ "google.golang.org/grpc/status"
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/types/known/emptypb"
 
 	resumev1 "github.com/Raaihhan/resume-gateway/gen/go/proto/resume/v1"
 	"github.com/Raaihhan/resume-gateway/internal/resume"
 	"github.com/Raaihhan/resume-gateway/pkg/config"
 	mw "github.com/Raaihhan/resume-gateway/pkg/middleware"
+	tracingpkg "github.com/Raaihhan/resume-gateway/pkg/tracing"
 )
 
 func main() {
@@ -36,6 +35,21 @@ func main() {
 		log.Fatal(err)
 	}
 	log.Printf("loaded config from: %s", configPath)
+
+	// === init tracing (Jaeger)
+	_, closer, err := tracingpkg.Init(tracingpkg.Config{
+		Enabled:     cfg.Tracing.Enabled,
+		ServiceName: cfg.Tracing.ServiceName,
+		AgentHost:   cfg.Tracing.AgentHost,
+		AgentPort:   cfg.Tracing.AgentPort,
+		Sampler:     cfg.Tracing.Sampler,
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+	if closer != nil {
+		defer closer.Close()
+	}
 
 	// === Repo & Service
 	repo, err := resume.NewMySQLRepo(cfg.Database.DSN())
@@ -79,8 +93,7 @@ func main() {
 		writeJSON(w, &mo, resp)
 	})
 
-	// GET /v1/projects?page_number=&page_size=&search_query=
-	// (tetap backward compatible: ?page= & ?q= juga diterima)
+	// GET /v1/projects
 	mux.HandleFunc("/v1/projects", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodGet {
 			http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
@@ -100,7 +113,7 @@ func main() {
 		writeJSON(w, &mo, resp)
 	})
 
-	// POST /v1/contact {name,email,message}
+	// POST /v1/contact
 	mux.HandleFunc("/v1/contact", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost {
 			http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
@@ -124,12 +137,27 @@ func main() {
 		writeJSON(w, &mo, resp)
 	})
 
+	// GET /v1/hobbies (buat ngetes RPC baru)
+	mux.HandleFunc("/v1/hobbies", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodGet {
+			http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
+			return
+		}
+		resp, err := svc.ListHobbies(r.Context(), &emptypb.Empty{})
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		writeJSON(w, &mo, resp)
+	})
+
 	// chain middleware
 	h := mw.ChainHTTP(
+		mw.TracingHTTP(),
 		mw.RequestID(),
 		mw.Recover(),
 		mw.Logging(),
-		mw.APIKeyHTTP(cfg.Server.APIKey), // kosong = off
+		mw.APIKeyHTTP(cfg.Server.APIKey),
 		mw.CORSWith(mw.CORSConfig{
 			AllowedOrigins: cfg.CORS.AllowedOrigins,
 			AllowedMethods: cfg.CORS.AllowedMethods,
@@ -139,7 +167,7 @@ func main() {
 
 	httpSrv := &http.Server{Addr: cfg.Server.HTTPAddr, Handler: h}
 	go func() {
-		log.Printf("HTTP (REST) listening on %s", cfg.Server.HTTPAddr)
+		log.Printf("HTTP (REST/gRPC-Web) listening on %s", cfg.Server.HTTPAddr)
 		if err := httpSrv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Fatal(err)
 		}

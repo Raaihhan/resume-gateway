@@ -9,6 +9,7 @@ package resumev1
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -441,11 +442,131 @@ func (x *CreateContactMessageResponse) GetStatus() string {
 	return ""
 }
 
+type LoadHobbyResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Tags          string                 `protobuf:"bytes,1,opt,name=Tags,proto3" json:"Tags,omitempty"`
+	Remaks        string                 `protobuf:"bytes,2,opt,name=Remaks,proto3" json:"Remaks,omitempty"`
+	Description   string                 `protobuf:"bytes,3,opt,name=Description,proto3" json:"Description,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LoadHobbyResponse) Reset() {
+	*x = LoadHobbyResponse{}
+	mi := &file_proto_resume_v1_resume_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LoadHobbyResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LoadHobbyResponse) ProtoMessage() {}
+
+func (x *LoadHobbyResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_resume_v1_resume_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LoadHobbyResponse.ProtoReflect.Descriptor instead.
+func (*LoadHobbyResponse) Descriptor() ([]byte, []int) {
+	return file_proto_resume_v1_resume_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *LoadHobbyResponse) GetTags() string {
+	if x != nil {
+		return x.Tags
+	}
+	return ""
+}
+
+func (x *LoadHobbyResponse) GetRemaks() string {
+	if x != nil {
+		return x.Remaks
+	}
+	return ""
+}
+
+func (x *LoadHobbyResponse) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+type ListSkillsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Skills        string                 `protobuf:"bytes,1,opt,name=Skills,proto3" json:"Skills,omitempty"`
+	Description   string                 `protobuf:"bytes,2,opt,name=Description,proto3" json:"Description,omitempty"`
+	Years         string                 `protobuf:"bytes,3,opt,name=Years,proto3" json:"Years,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListSkillsResponse) Reset() {
+	*x = ListSkillsResponse{}
+	mi := &file_proto_resume_v1_resume_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListSkillsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListSkillsResponse) ProtoMessage() {}
+
+func (x *ListSkillsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_resume_v1_resume_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListSkillsResponse.ProtoReflect.Descriptor instead.
+func (*ListSkillsResponse) Descriptor() ([]byte, []int) {
+	return file_proto_resume_v1_resume_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *ListSkillsResponse) GetSkills() string {
+	if x != nil {
+		return x.Skills
+	}
+	return ""
+}
+
+func (x *ListSkillsResponse) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *ListSkillsResponse) GetYears() string {
+	if x != nil {
+		return x.Years
+	}
+	return ""
+}
+
 var File_proto_resume_v1_resume_proto protoreflect.FileDescriptor
 
 const file_proto_resume_v1_resume_proto_rawDesc = "" +
 	"\n" +
-	"\x1cproto/resume/v1/resume.proto\x12\tresume.v1\"\x13\n" +
+	"\x1cproto/resume/v1/resume.proto\x12\tresume.v1\x1a\x1bgoogle/protobuf/empty.proto\"\x13\n" +
 	"\x11GetProfileRequest\"\xaf\x01\n" +
 	"\aProfile\x12\x1b\n" +
 	"\tfull_name\x18\x01 \x01(\tR\bfullName\x12\x1a\n" +
@@ -475,12 +596,23 @@ const file_proto_resume_v1_resume_proto_rawDesc = "" +
 	"\x05email\x18\x02 \x01(\tR\x05email\x12\x18\n" +
 	"\amessage\x18\x03 \x01(\tR\amessage\"6\n" +
 	"\x1cCreateContactMessageResponse\x12\x16\n" +
-	"\x06status\x18\x01 \x01(\tR\x06status2\x90\x02\n" +
+	"\x06status\x18\x01 \x01(\tR\x06status\"a\n" +
+	"\x11LoadHobbyResponse\x12\x12\n" +
+	"\x04Tags\x18\x01 \x01(\tR\x04Tags\x12\x16\n" +
+	"\x06Remaks\x18\x02 \x01(\tR\x06Remaks\x12 \n" +
+	"\vDescription\x18\x03 \x01(\tR\vDescription\"d\n" +
+	"\x12ListSkillsResponse\x12\x16\n" +
+	"\x06Skills\x18\x01 \x01(\tR\x06Skills\x12 \n" +
+	"\vDescription\x18\x02 \x01(\tR\vDescription\x12\x14\n" +
+	"\x05Years\x18\x03 \x01(\tR\x05Years2\x9a\x03\n" +
 	"\x14ResumeGatewayService\x12>\n" +
 	"\n" +
 	"GetProfile\x12\x1c.resume.v1.GetProfileRequest\x1a\x12.resume.v1.Profile\x12O\n" +
 	"\fListProjects\x12\x1e.resume.v1.ListProjectsRequest\x1a\x1f.resume.v1.ListProjectsResponse\x12g\n" +
-	"\x14CreateContactMessage\x12&.resume.v1.CreateContactMessageRequest\x1a'.resume.v1.CreateContactMessageResponseB\xa9\x01\n" +
+	"\x14CreateContactMessage\x12&.resume.v1.CreateContactMessageRequest\x1a'.resume.v1.CreateContactMessageResponse\x12C\n" +
+	"\vListHobbies\x12\x16.google.protobuf.Empty\x1a\x1c.resume.v1.LoadHobbyResponse\x12C\n" +
+	"\n" +
+	"ListSkills\x12\x16.google.protobuf.Empty\x1a\x1d.resume.v1.ListSkillsResponseB\xa9\x01\n" +
 	"\rcom.resume.v1B\vResumeProtoP\x01ZFgithub.com/Raaihhan/resume-gateway/api/gen/go/proto/resume/v1;resumev1\xa2\x02\x03RXX\xaa\x02\tResume.V1\xca\x02\tResume\\V1\xe2\x02\x15Resume\\V1\\GPBMetadata\xea\x02\n" +
 	"Resume::V1b\x06proto3"
 
@@ -496,7 +628,7 @@ func file_proto_resume_v1_resume_proto_rawDescGZIP() []byte {
 	return file_proto_resume_v1_resume_proto_rawDescData
 }
 
-var file_proto_resume_v1_resume_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_proto_resume_v1_resume_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_proto_resume_v1_resume_proto_goTypes = []any{
 	(*GetProfileRequest)(nil),            // 0: resume.v1.GetProfileRequest
 	(*Profile)(nil),                      // 1: resume.v1.Profile
@@ -505,17 +637,24 @@ var file_proto_resume_v1_resume_proto_goTypes = []any{
 	(*ListProjectsResponse)(nil),         // 4: resume.v1.ListProjectsResponse
 	(*CreateContactMessageRequest)(nil),  // 5: resume.v1.CreateContactMessageRequest
 	(*CreateContactMessageResponse)(nil), // 6: resume.v1.CreateContactMessageResponse
+	(*LoadHobbyResponse)(nil),            // 7: resume.v1.LoadHobbyResponse
+	(*ListSkillsResponse)(nil),           // 8: resume.v1.ListSkillsResponse
+	(*emptypb.Empty)(nil),                // 9: google.protobuf.Empty
 }
 var file_proto_resume_v1_resume_proto_depIdxs = []int32{
 	2, // 0: resume.v1.ListProjectsResponse.items:type_name -> resume.v1.Project
 	0, // 1: resume.v1.ResumeGatewayService.GetProfile:input_type -> resume.v1.GetProfileRequest
 	3, // 2: resume.v1.ResumeGatewayService.ListProjects:input_type -> resume.v1.ListProjectsRequest
 	5, // 3: resume.v1.ResumeGatewayService.CreateContactMessage:input_type -> resume.v1.CreateContactMessageRequest
-	1, // 4: resume.v1.ResumeGatewayService.GetProfile:output_type -> resume.v1.Profile
-	4, // 5: resume.v1.ResumeGatewayService.ListProjects:output_type -> resume.v1.ListProjectsResponse
-	6, // 6: resume.v1.ResumeGatewayService.CreateContactMessage:output_type -> resume.v1.CreateContactMessageResponse
-	4, // [4:7] is the sub-list for method output_type
-	1, // [1:4] is the sub-list for method input_type
+	9, // 4: resume.v1.ResumeGatewayService.ListHobbies:input_type -> google.protobuf.Empty
+	9, // 5: resume.v1.ResumeGatewayService.ListSkills:input_type -> google.protobuf.Empty
+	1, // 6: resume.v1.ResumeGatewayService.GetProfile:output_type -> resume.v1.Profile
+	4, // 7: resume.v1.ResumeGatewayService.ListProjects:output_type -> resume.v1.ListProjectsResponse
+	6, // 8: resume.v1.ResumeGatewayService.CreateContactMessage:output_type -> resume.v1.CreateContactMessageResponse
+	7, // 9: resume.v1.ResumeGatewayService.ListHobbies:output_type -> resume.v1.LoadHobbyResponse
+	8, // 10: resume.v1.ResumeGatewayService.ListSkills:output_type -> resume.v1.ListSkillsResponse
+	6, // [6:11] is the sub-list for method output_type
+	1, // [1:6] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name
 	1, // [1:1] is the sub-list for extension extendee
 	0, // [0:1] is the sub-list for field type_name
@@ -532,7 +671,7 @@ func file_proto_resume_v1_resume_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_resume_v1_resume_proto_rawDesc), len(file_proto_resume_v1_resume_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

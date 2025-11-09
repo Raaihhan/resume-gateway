@@ -13,6 +13,7 @@ type Config struct {
 	CORS     CORS     `yaml:"cors"`
 	Database Database `yaml:"database"`
 	Log      Log      `yaml:"log"`
+	Tracing  Tracing  `yaml:"tracing"`
 }
 
 type Server struct {
@@ -39,6 +40,14 @@ type Database struct {
 
 type Log struct {
 	Level string `yaml:"level"` // "info" | "debug" | ...
+}
+
+type Tracing struct {
+	Enabled     bool    `yaml:"enabled"`
+	ServiceName string  `yaml:"service_name"`
+	AgentHost   string  `yaml:"agent_host"`
+	AgentPort   int     `yaml:"agent_port"`
+	Sampler     float64 `yaml:"sampler"`
 }
 
 // DSN membangun connection string MySQL dari field YAML.

@@ -20,3 +20,9 @@ database:
     loc: "Asia/Jakarta"
 log:
   level: "info"
+tracing:
+  enabled: true
+  service_name: "resume-gateway"
+  agent_host: "127.0.0.1"
+  agent_port: 6831
+  sampler: 1

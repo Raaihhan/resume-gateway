@@ -11,6 +11,7 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -22,6 +23,8 @@ const (
 	ResumeGatewayService_GetProfile_FullMethodName           = "/resume.v1.ResumeGatewayService/GetProfile"
 	ResumeGatewayService_ListProjects_FullMethodName         = "/resume.v1.ResumeGatewayService/ListProjects"
 	ResumeGatewayService_CreateContactMessage_FullMethodName = "/resume.v1.ResumeGatewayService/CreateContactMessage"
+	ResumeGatewayService_ListHobbies_FullMethodName          = "/resume.v1.ResumeGatewayService/ListHobbies"
+	ResumeGatewayService_ListSkills_FullMethodName           = "/resume.v1.ResumeGatewayService/ListSkills"
 )
 
 // ResumeGatewayServiceClient is the client API for ResumeGatewayService service.
@@ -31,6 +34,8 @@ type ResumeGatewayServiceClient interface {
 	GetProfile(ctx context.Context, in *GetProfileRequest, opts ...grpc.CallOption) (*Profile, error)
 	ListProjects(ctx context.Context, in *ListProjectsRequest, opts ...grpc.CallOption) (*ListProjectsResponse, error)
 	CreateContactMessage(ctx context.Context, in *CreateContactMessageRequest, opts ...grpc.CallOption) (*CreateContactMessageResponse, error)
+	ListHobbies(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*LoadHobbyResponse, error)
+	ListSkills(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListSkillsResponse, error)
 }
 
 type resumeGatewayServiceClient struct {
@@ -71,6 +76,26 @@ func (c *resumeGatewayServiceClient) CreateContactMessage(ctx context.Context, i
 	return out, nil
 }
 
+func (c *resumeGatewayServiceClient) ListHobbies(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*LoadHobbyResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(LoadHobbyResponse)
+	err := c.cc.Invoke(ctx, ResumeGatewayService_ListHobbies_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *resumeGatewayServiceClient) ListSkills(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListSkillsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListSkillsResponse)
+	err := c.cc.Invoke(ctx, ResumeGatewayService_ListSkills_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ResumeGatewayServiceServer is the server API for ResumeGatewayService service.
 // All implementations must embed UnimplementedResumeGatewayServiceServer
 // for forward compatibility.
@@ -78,6 +103,8 @@ type ResumeGatewayServiceServer interface {
 	GetProfile(context.Context, *GetProfileRequest) (*Profile, error)
 	ListProjects(context.Context, *ListProjectsRequest) (*ListProjectsResponse, error)
 	CreateContactMessage(context.Context, *CreateContactMessageRequest) (*CreateContactMessageResponse, error)
+	ListHobbies(context.Context, *emptypb.Empty) (*LoadHobbyResponse, error)
+	ListSkills(context.Context, *emptypb.Empty) (*ListSkillsResponse, error)
 	mustEmbedUnimplementedResumeGatewayServiceServer()
 }
 
@@ -96,6 +123,12 @@ func (UnimplementedResumeGatewayServiceServer) ListProjects(context.Context, *Li
 }
 func (UnimplementedResumeGatewayServiceServer) CreateContactMessage(context.Context, *CreateContactMessageRequest) (*CreateContactMessageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateContactMessage not implemented")
+}
+func (UnimplementedResumeGatewayServiceServer) ListHobbies(context.Context, *emptypb.Empty) (*LoadHobbyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListHobbies not implemented")
+}
+func (UnimplementedResumeGatewayServiceServer) ListSkills(context.Context, *emptypb.Empty) (*ListSkillsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListSkills not implemented")
 }
 func (UnimplementedResumeGatewayServiceServer) mustEmbedUnimplementedResumeGatewayServiceServer() {}
 func (UnimplementedResumeGatewayServiceServer) testEmbeddedByValue()                              {}
@@ -172,6 +205,42 @@ func _ResumeGatewayService_CreateContactMessage_Handler(srv interface{}, ctx con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ResumeGatewayService_ListHobbies_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ResumeGatewayServiceServer).ListHobbies(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ResumeGatewayService_ListHobbies_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ResumeGatewayServiceServer).ListHobbies(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ResumeGatewayService_ListSkills_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ResumeGatewayServiceServer).ListSkills(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ResumeGatewayService_ListSkills_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ResumeGatewayServiceServer).ListSkills(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ResumeGatewayService_ServiceDesc is the grpc.ServiceDesc for ResumeGatewayService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -190,6 +259,14 @@ var ResumeGatewayService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateContactMessage",
 			Handler:    _ResumeGatewayService_CreateContactMessage_Handler,
+		},
+		{
+			MethodName: "ListHobbies",
+			Handler:    _ResumeGatewayService_ListHobbies_Handler,
+		},
+		{
+			MethodName: "ListSkills",
+			Handler:    _ResumeGatewayService_ListSkills_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

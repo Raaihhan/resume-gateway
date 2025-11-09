@@ -12,7 +12,7 @@ CONFIG_FILE     := $(CONFIG_DIR)/config.yaml
 
 # ============ DB Seed Helper ============
 DB_USER ?= root
-DB_PASS ?= root
+DB_PASS ?= ""
 DB_HOST ?= 127.0.0.1
 DB_PORT ?= 3306
 
@@ -37,7 +37,7 @@ config:
 	@test -f $(CONFIG_FILE) || cp $(CONFIG_EXAMPLE) $(CONFIG_FILE) && echo "OK: $(CONFIG_FILE) created"
 
 # ---- Protobuf (BUF) ----
-proto:
+protoc:
 	cd $(PROTO_DIR) && buf generate
 
 tidy:

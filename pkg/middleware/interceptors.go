@@ -16,6 +16,7 @@ import (
 
 func WithUnaryServerInterceptors() grpc.ServerOption {
 	return grpc.ChainUnaryInterceptor(
+		GRPCTracingUnary(),
 		loggingUnary(),
 		recoverUnary(),
 		timeoutUnary(5*time.Second),
