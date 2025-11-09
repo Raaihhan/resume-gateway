@@ -20,7 +20,7 @@ func NewService(r Repo) *Service { return &Service{repo: r} }
 func (s *Service) GetProfile(ctx context.Context, _ *resumev1.GetProfileRequest) (*resumev1.Profile, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "Service.GetProfile")
 	defer span.Finish()
-	res:= &resumev1.Profile{}
+	res := &resumev1.Profile{}
 	p, err := s.repo.GetProfile(ctx)
 	if err != nil {
 		return nil, err
